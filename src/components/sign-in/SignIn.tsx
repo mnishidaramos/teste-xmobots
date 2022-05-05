@@ -14,16 +14,37 @@ import { ThemeProvider } from '@mui/material/styles';
 
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import LoginIcon from '@mui/icons-material/Login';
-import theme from './../theme';
+import theme from '../../theme';
+import { PageContext } from '../../contexts/Content-router';
 
 export default function SignIn() {
+  //Contexto para acesso aos dados de página e usuário
+  const { user, setUser, setPage, signIn } = React.useContext(PageContext);
+
+  //Estados para armazenar e manipular os dados do formulário
+  const [salvarUsuario, setSalvarUsuario] = React.useState(false);
+  const [errorUserInvalid, setErrorUserInvalid] = React.useState(false);
+  const [errorUserInvMessage, setErrorUserInvMessage] = React.useState('');
+
+  //Função chamada ao clicar no botão de entrar
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    //Testa se é um usuário válido
+    if (user != null && user != undefined && user.trim() != '') {
+      setUser(user);
+      setErrorUserInvalid(false);
+      setErrorUserInvMessage('');
+    } else {
+      setErrorUserInvalid(true); //Sinaliza que o usuário é inválido
+      setErrorUserInvMessage('Usuário inválido'); //Mensagem de erro
+      return false;
+    }
+    //Se foi selecionado para continuar conectado posteriormente
+    if (salvarUsuario) {
+      signIn();
+    }
+    //Por fim, muda a página para o mapa
+    setPage('dashboard');
   };
 
   return (
@@ -47,14 +68,18 @@ export default function SignIn() {
           <Typography component="h1" variant="h5">
             Login
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
             <TextField
+              error={errorUserInvalid}//Sinaliza se o usuário é inválido
+              helperText={errorUserInvMessage}//Mensagem de erro
               margin="normal"
-              required
+              required={true}
               fullWidth
               id="usuario"
-              label="Usuario"
+              label="Usuário"
               name="usuario"
+              value={user}
+              onChange={(event) => setUser(event.target.value)}
               autoFocus
             />
             <TextField
@@ -62,12 +87,17 @@ export default function SignIn() {
               fullWidth
               name="senha"
               label="Senha"
-              type="senha"
+              type="password"
               id="senha"
             />
             <FormControlLabel
-              control={<Checkbox value="continuarConectado" color="primary" />}
+              control={
+                <Checkbox color="success"
+                  value={salvarUsuario}
+                  onChange={() => { setSalvarUsuario(!salvarUsuario) }} />
+              }
               label="Continuar conectado"
+              id="continuarConectado"
             />
             <Button
               type="submit"
@@ -81,8 +111,8 @@ export default function SignIn() {
             <Grid container>
               <Grid item>
                 Não tem uma conta?
-                <Link href="#" variant="body2">
-                  {" Se cadastre"}
+                <Link href="#" ml={1}>
+                  Se cadastre aqui
                 </Link>
               </Grid>
             </Grid>

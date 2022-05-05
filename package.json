@@ -1,7 +1,7 @@
 {
   "name": "teste-xmobots",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "index.tsx",
   "repository": "git@github.com:mnishidaramos/teste-xmobots.git",
   "author": "Matheus N Ramos <mnishidaramos@gmail.com>",
   "license": "MIT",
