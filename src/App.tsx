@@ -5,7 +5,7 @@ import Link from '@mui/material/Link';
 import SignIn from './components/sign-in/SignIn';
 import { useContext } from 'react';
 import { PageContext } from './contexts/Content-router';
-import Dashboard from './components/dashboard/Dashboard';
+import MiniDrawer from './components/dashboard/Dashboard';
 
 export default function App() {
   const { user, page, setPage } = useContext(PageContext);
@@ -21,7 +21,7 @@ export default function App() {
         page === 'sign-in' ?
           <SignIn /> :
           page === 'dashboard' ?
-            <Dashboard /> :
+            <MiniDrawer /> :
             page === 'index' ?
               <>
                 <h1>Home</h1>
