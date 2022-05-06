@@ -9,7 +9,7 @@ import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import { Link } from '@mui/material';
+import { Button, Link } from '@mui/material';
 
 
 import MenuIcon from '@mui/icons-material/Menu';
@@ -134,9 +134,20 @@ export default function MiniDrawer() {
           <Typography variant="h6" noWrap component="div">
             Meu mapa
           </Typography>
-          <Typography variant="button" display="block" gutterBottom ml={'auto'}>
-            <Link onClick={logOut}>Sair</Link>
-          </Typography>
+          <Button onClick={logOut} variant="contained" color='error' sx={{ margin: 'auto 0 auto auto' }}>
+            Sair
+          </Button>
+          {/* <Typography
+            onClick={logOut}
+            variant="button"
+            display="block"
+            gutterBottom
+            ml={'auto'}
+            mt={'auto'}
+            mb={'auto'}
+          >
+            <Button color='error.light' variant="contained">Sair</Button>
+          </Typography> */}
         </Toolbar>
       </AppBar>
 

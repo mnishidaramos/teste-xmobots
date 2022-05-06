@@ -17,7 +17,8 @@ import { PageContext } from '../../contexts/Content-router';
 import theme from './../../theme';
 
 export default function SignUp() {
-  const { setPage } = React.useContext(PageContext);
+  const { setPage, setUser } = React.useContext(PageContext);
+  const [regUser, setRegUser] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [confirmPassword, setConfirmPassword] = React.useState('');
   const [errorPassword, setErrorPassword] = React.useState(false);
@@ -29,11 +30,13 @@ export default function SignUp() {
     if (password === confirmPassword) {
       setErrorPassword(false);
       setErrorPasswordMessage('');
-      // setPage('dashboard');
     } else {
       setErrorPassword(true);
       setErrorPasswordMessage('As senhas não conferem');
+      return false;
     }
+    setUser(regUser);
+    setPage('dashboard');
   };
 
   return (
@@ -68,6 +71,8 @@ export default function SignUp() {
                   id="nome"
                   label="Nome"
                   autoFocus
+                  value={regUser}
+                  onChange={(event) => setRegUser(event.target.value)}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
