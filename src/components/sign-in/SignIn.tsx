@@ -111,7 +111,7 @@ export default function SignIn() {
             <Grid container>
               <Grid item>
                 Não tem uma conta?
-                <Link href="#" ml={1}>
+                <Link href="#" ml={1} onClick={() => { setPage('sign-up') }}>
                   Se cadastre aqui
                 </Link>
               </Grid>

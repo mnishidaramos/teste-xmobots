@@ -6,6 +6,7 @@ import SignIn from './components/sign-in/SignIn';
 import { useContext } from 'react';
 import { PageContext } from './contexts/Content-router';
 import MiniDrawer from './components/dashboard/Dashboard';
+import SignUp from './components/sign-up/SignUp';
 
 export default function App() {
   const { user, page, setPage } = useContext(PageContext);
@@ -27,7 +28,9 @@ export default function App() {
                 <h1>Home</h1>
                 <button onClick={() => { setPage('sign-in') }}>Sign-in</button>
               </> :
-              <h1>Erro 404</h1>
+              page === 'sign-up' ?
+                <SignUp /> :
+                <h1>Erro 404</h1>
       }
     </Container>
   );
