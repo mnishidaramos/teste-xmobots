@@ -20,7 +20,6 @@ import ListItemText from '@mui/material/ListItemText';
 import MapIcon from '@mui/icons-material/Map';
 import UploadIcon from '@mui/icons-material/Upload';
 
-import theme from './../../theme';
 import { PageContext } from '../../contexts/Content-router';
 import { Avatar } from '@mui/material';
 
@@ -137,17 +136,6 @@ export default function MiniDrawer() {
           <Button onClick={logOut} variant="contained" color='error' sx={{ margin: 'auto 0 auto auto' }}>
             Sair
           </Button>
-          {/* <Typography
-            onClick={logOut}
-            variant="button"
-            display="block"
-            gutterBottom
-            ml={'auto'}
-            mt={'auto'}
-            mb={'auto'}
-          >
-            <Button color='error.light' variant="contained">Sair</Button>
-          </Typography> */}
         </Toolbar>
       </AppBar>
 
@@ -185,11 +173,11 @@ export default function MiniDrawer() {
           ))}
         </List>
         <Divider />
+        <DrawerHeader />
       </Drawer>
 
       {/* Conteudo */}
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-        <DrawerHeader />
         <Typography paragraph>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
           tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non
