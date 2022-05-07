@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles';
+import { styled, Theme, CSSObject } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
@@ -9,7 +9,7 @@ import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import { Button, Link } from '@mui/material';
+import { Button } from '@mui/material';
 
 
 import MenuIcon from '@mui/icons-material/Menu';
@@ -22,6 +22,7 @@ import UploadIcon from '@mui/icons-material/Upload';
 
 import { PageContext } from '../../contexts/Content-router';
 import { Avatar } from '@mui/material';
+import LeafletMap from '../leafletMap/LeafletMap';
 
 const drawerWidth = 360;
 
@@ -95,7 +96,6 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 );
 
 export default function MiniDrawer() {
-  const themes = useTheme();
   const [open, setOpen] = React.useState(false);
   const { user, signOut, setPage } = React.useContext(PageContext);
 
@@ -177,8 +177,9 @@ export default function MiniDrawer() {
       </Drawer>
 
       {/* Conteudo */}
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-        <Typography paragraph>
+      <Box component="main" sx={{ position: 'absolute', left: 65, top: 65 }}>
+        <LeafletMap />
+        {/* <Typography paragraph>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
           tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non
           enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus
@@ -204,7 +205,7 @@ export default function MiniDrawer() {
           tristique sollicitudin nibh sit. Ornare aenean euismod elementum nisi quis
           eleifend. Commodo viverra maecenas accumsan lacus vel facilisis. Nulla
           posuere sollicitudin aliquam ultrices sagittis orci a.
-        </Typography>
+        </Typography> */}
       </Box>
     </Box>
   );

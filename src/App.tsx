@@ -12,7 +12,7 @@ export default function App() {
   const { user, page, setPage } = useContext(PageContext);
 
   return (
-    <Container maxWidth="md">
+    <Container>
       {/*
         O seguinte trecho verifica qual página deve ser exibida.
         Foi feito desta forma para simplificar o código e diminuir a utilização
