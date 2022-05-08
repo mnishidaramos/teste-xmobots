@@ -10,6 +10,7 @@ import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import { Avatar, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import { DataGrid, GridColDef, GridRowsProp, GridValueGetterParams } from '@mui/x-data-grid';
 
 import MenuIcon from '@mui/icons-material/Menu';
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
@@ -21,6 +22,7 @@ import UploadIcon from '@mui/icons-material/Upload';
 
 import { PageContext } from '../../contexts/Content-router';
 import LeafletMap from '../leafletMap/LeafletMap';
+import { coordUpload, coordType } from '../../utils/coordUpload';
 
 // Variável que define o tamanho da barra lateral quando aberta
 const drawerWidth = 360;
@@ -134,7 +136,7 @@ export default function Dashboard() {
         alert("Mapa!");
         break;
       case 'Upload':
-        handleDiagOpen();
+        handleDiagUploadOpen();
         break;
     }
     return null;
@@ -153,23 +155,86 @@ export default function Dashboard() {
    * Funções e variáveis para o dialogo de upload
    * 
    */
-  const [diagOpen, setDiagOpen] = React.useState(false);
+  const [diagUploadOpen, setDiagUploadOpen] = React.useState(false);
   const [uploadFile, setUploadFile] = React.useState<File | null>(null);
 
-  const handleDiagOpen = () => {
-    setDiagOpen(true);
+  const handleDiagUploadOpen = () => {
+    setDiagUploadOpen(true);
   };
 
-  const handleDiagClose = () => {
-    setDiagOpen(false);
+  const handleDiagUploadClose = () => {
+    setDiagUploadOpen(false);
   };
 
   const handleUploadFile = () => {
     if (uploadFile) {
-      console.log(uploadFile);
+      sendFile(uploadFile);
     }
-    setDiagOpen(false);
+    setDiagUploadOpen(false);
     setUploadFile(null);
+  };
+
+  const sendFile = async function (file: File) {
+    let result = await coordUpload(JSON.parse(await file.text()));
+    setTableRows(result.lista);
+    setDiagTableOpen(true);
+  }
+
+  /**
+   * 
+   * Funções e variáveis para a tabela de coordenadas
+   * 
+   */
+  const [diagTableOpen, setDiagTableOpen] = React.useState(false);
+
+  const tableColumns: GridColDef[] = [
+    {
+      field: 'id',
+    },
+    {
+      field: 'nome',
+      headerName: 'Nome',
+      width: 150,
+      editable: false,
+    },
+    {
+      field: 'cidade',
+      headerName: 'Cidade',
+      width: 150,
+      editable: false,
+    },
+    {
+      field: 'dms',
+      headerName: 'Coordenadas DMS',
+      width: 110,
+      editable: false,
+      valueGetter: (params: GridValueGetterParams) => {
+        return ('Lat: ' + params.row.dms.lat + '\n' + 'Lng: ' + params.row.dms.lng);
+      }
+    },
+    {
+      field: 'dataDeCriacao',
+      headerName: 'Data de Criação',
+      width: 160,
+      editable: false,
+    },
+    {
+      field: 'quantidadeDePistas',
+      headerName: 'Quantidade de Pistas',
+      width: 160,
+      editable: false,
+    },
+  ];
+  // const [tableRows, setTableRows] = React.useState([{ id: 0, nome: '', cidade: '', dms: 0, dataDeCriacao: '', quantidadeDePistas: 0 }]);
+  const [tableRows, setTableRows] = React.useState([] as coordType[]);
+  // GridRowsProp = [{ id: 0, nome: '', cidade: '', dms: 0, dataDeCriacao: '', quantidadeDePistas: 0 }]
+
+  const handleDiagTableOpen = () => {
+    setDiagTableOpen(true);
+  };
+
+  const handleDiagTableClose = () => {
+    setDiagTableOpen(false);
   };
 
   return (
@@ -245,7 +310,7 @@ export default function Dashboard() {
       </Box>
 
       {/* Modal de diálogo do Upload */}
-      <Dialog open={diagOpen} onClose={handleDiagClose}>
+      <Dialog open={diagUploadOpen} onClose={handleDiagUploadClose}>
         <DialogTitle>Upload de coodenadas</DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -266,8 +331,28 @@ export default function Dashboard() {
           <Typography mr={'auto'} mt={1} noWrap>{uploadFile?.name}</Typography>
         </DialogContent>
         <DialogActions sx={{ mr: 1, mb: 1, ml: 'auto' }}>
-          <Button onClick={handleDiagClose}>Cancelar</Button>
+          <Button onClick={handleDiagUploadClose}>Cancelar</Button>
           <Button onClick={handleUploadFile} variant='contained' color='success'>Enviar</Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Modal de diálogo da tabela de coordenadas */}
+      <Dialog open={diagTableOpen} onClose={handleDiagTableClose} fullWidth={true} maxWidth='md'>
+        <DialogTitle>Tabela de coodenadas</DialogTitle>
+        <DialogContent>
+          <div style={{ height: 400 }}>
+            <DataGrid
+              rows={tableRows}
+              columns={tableColumns}
+              pageSize={5}
+              rowsPerPageOptions={[5]}
+              disableSelectionOnClick
+              columnVisibilityModel={{ id: false }}
+            />
+          </div>
+        </DialogContent>
+        <DialogActions sx={{ mr: 1, mb: 1, ml: 'auto' }}>
+          <Button onClick={handleDiagTableClose} variant='contained' color='error'>Fechar</Button>
         </DialogActions>
       </Dialog>
     </Box >
