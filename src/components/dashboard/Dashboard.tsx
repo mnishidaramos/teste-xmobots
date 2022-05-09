@@ -21,8 +21,9 @@ import MapIcon from '@mui/icons-material/Map';
 import UploadIcon from '@mui/icons-material/Upload';
 
 import { PageContext } from '../../contexts/Content-router';
-import LeafletMap from '../leafletMap/LeafletMap';
+import LeafletMap, { mapMarkers } from '../leafletMap/LeafletMap';
 import { coordUpload, coordType } from '../../utils/coordUpload';
+import { Circle } from 'react-leaflet';
 
 // Variável que define o tamanho da barra lateral quando aberta
 const drawerWidth = 360;
@@ -177,6 +178,7 @@ export default function Dashboard() {
   const sendFile = async function (file: File) {
     let result = await coordUpload(JSON.parse(await file.text()));
     setTableRows(result.lista);
+    setMarkersList(mapMarkers(result.lista));
     setDiagTableOpen(true);
   }
 
@@ -186,6 +188,7 @@ export default function Dashboard() {
    * 
    */
   const [diagTableOpen, setDiagTableOpen] = React.useState(false);
+  const [markersList, setMarkersList] = React.useState<[Number[]]>([[]]);
 
   const tableColumns: GridColDef[] = [
     {
@@ -194,40 +197,38 @@ export default function Dashboard() {
     {
       field: 'nome',
       headerName: 'Nome',
-      width: 150,
+      width: 200,
       editable: false,
     },
     {
       field: 'cidade',
       headerName: 'Cidade',
-      width: 150,
+      width: 130,
       editable: false,
     },
     {
       field: 'dms',
       headerName: 'Coordenadas DMS',
-      width: 110,
+      width: 300,
       editable: false,
       valueGetter: (params: GridValueGetterParams) => {
-        return ('Lat: ' + params.row.dms.lat + '\n' + 'Lng: ' + params.row.dms.lng);
+        return ('LAT: ' + params.row.dms.lat + '\n' + 'LNG: ' + params.row.dms.lng);
       }
     },
     {
       field: 'dataDeCriacao',
       headerName: 'Data de Criação',
-      width: 160,
+      width: 130,
       editable: false,
     },
     {
       field: 'quantidadeDePistas',
       headerName: 'Quantidade de Pistas',
-      width: 160,
+      width: 80,
       editable: false,
     },
   ];
-  // const [tableRows, setTableRows] = React.useState([{ id: 0, nome: '', cidade: '', dms: 0, dataDeCriacao: '', quantidadeDePistas: 0 }]);
   const [tableRows, setTableRows] = React.useState([] as coordType[]);
-  // GridRowsProp = [{ id: 0, nome: '', cidade: '', dms: 0, dataDeCriacao: '', quantidadeDePistas: 0 }]
 
   const handleDiagTableOpen = () => {
     setDiagTableOpen(true);
@@ -306,7 +307,18 @@ export default function Dashboard() {
       {/* Conteudo */}
       <Box component="main" sx={{ position: 'absolute', left: 65, top: 65 }}>
         {/* Mapa do Leaflet */}
-        <LeafletMap />
+        <LeafletMap>
+          {markersList?.map((marker, index) => {
+            let [lat, lng] = marker;
+            if (marker && marker.length > 0 && lat && lng) {
+              return (
+                <Circle key={index} center={[lat.valueOf(), lng.valueOf()]} radius={5000} />
+              )
+            } else {
+              return null;
+            }
+          })};
+        </LeafletMap>
       </Box>
 
       {/* Modal de diálogo do Upload */}

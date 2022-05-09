@@ -12,7 +12,7 @@ type dataType = {
     }],
 }
 
-type coordListType = {
+export type coordListType = {
     lista: coordType[],
 };
 
