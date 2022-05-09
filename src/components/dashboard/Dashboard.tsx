@@ -134,7 +134,7 @@ export default function Dashboard() {
   const handleClickMenu = function (option: string) {
     switch (option) {
       case 'Mapa':
-        alert("Mapa!");
+        setPage('dashboard');
         break;
       case 'Upload':
         handleDiagUploadOpen();

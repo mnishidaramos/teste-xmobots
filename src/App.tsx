@@ -1,15 +1,16 @@
 import * as React from 'react';
-import Container from '@mui/material/Container';
-import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
-import SignIn from './components/sign-in/SignIn';
 import { useContext } from 'react';
-import { PageContext } from './contexts/Content-router';
+
+import Container from '@mui/material/Container';
+
+import SignIn from './components/sign-in/SignIn';
 import Dashboard from './components/dashboard/Dashboard';
 import SignUp from './components/sign-up/SignUp';
 
+import { PageContext } from './contexts/Content-router';
+
 export default function App() {
-  const { user, page, setPage } = useContext(PageContext);
+  const { page } = useContext(PageContext);
 
   return (
     <Container>
@@ -24,10 +25,7 @@ export default function App() {
           page === 'dashboard' ?
             <Dashboard /> :
             page === 'index' ?
-              <>
-                <h1>Home</h1>
-                <button onClick={() => { setPage('sign-in') }}>Sign-in</button>
-              </> :
+              <SignIn /> :
               page === 'sign-up' ?
                 <SignUp /> :
                 <h1>Erro 404</h1>

@@ -1,5 +1,5 @@
 import React from "react";
-import { createContext, ReactNode, useEffect, useState } from "react";
+import { createContext, ReactNode, useState } from "react";
 
 type PageContextData = {
     user: string;
@@ -41,7 +41,7 @@ export function PageProvider(props: PageProvider) {
                 page,
                 setPage,
                 signIn,
-                signOut
+                signOut,
             }}
         >
             {props.children}
