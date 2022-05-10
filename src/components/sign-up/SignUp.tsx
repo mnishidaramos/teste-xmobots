@@ -36,7 +36,7 @@ export default function SignUp() {
       return false;
     }
     setUser(regUser);
-    setPage('dashboard');
+    // setPage('dashboard');
   };
 
   return (

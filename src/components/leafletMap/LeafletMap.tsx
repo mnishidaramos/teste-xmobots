@@ -48,12 +48,12 @@ export default function LeafletMap(props: LeafletMapProps) {
     }
 
     return (
-        <MapContainer center={[-22.0180395, -47.891154]} zoom={9} scrollWheelZoom={false} style={mapStyle}>
-            <TileLayer
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            />
-            {props.children}
-        </MapContainer>
+        // <MapContainer center={[-22.0180395, -47.891154]} zoom={9} scrollWheelZoom={false} style={mapStyle}>
+        //     <TileLayer
+        //         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        //         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        //     />
+        //     {props.children}
+        // </MapContainer>
     )
 }

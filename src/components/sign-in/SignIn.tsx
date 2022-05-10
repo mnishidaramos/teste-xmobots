@@ -44,7 +44,7 @@ export default function SignIn() {
       signIn();
     }
     //Por fim, muda a página para o mapa
-    setPage('dashboard');
+    // setPage('dashboard');
   };
 
   return (
